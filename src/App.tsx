@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
@@ -13,6 +13,44 @@ function App() {
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [agentName, setAgentName] = useState('');
   const [agentPosition, setAgentPosition] = useState({ x: 0, y: 0 });
+  const beepRef = useRef<HTMLAudioElement>(null);
+  const alarmRef = useRef<HTMLAudioElement>(null);
+
+  // Initialize audio
+  useEffect(() => {
+    if (beepRef.current) {
+      beepRef.current.volume = 0.3;
+    }
+    if (alarmRef.current) {
+      alarmRef.current.volume = 0.4;
+    }
+  }, []);
+
+  // Sound effect for timer
+  useEffect(() => {
+    if (gameState !== 'running') return;
+
+    const playBeep = () => {
+      if (beepRef.current) {
+        beepRef.current.currentTime = 0;
+        beepRef.current.play().catch(() => {});
+      }
+    };
+
+    // Play beep every second when time is low
+    if (timeLeft <= 60) {
+      playBeep();
+    } else if (timeLeft <= 300) { // Play every 5 seconds when under 5 minutes
+      if (timeLeft % 5 === 0) {
+        playBeep();
+      }
+    }
+
+    // Play alarm sound when very low on time
+    if (timeLeft <= 10 && alarmRef.current) {
+      alarmRef.current.play().catch(() => {});
+    }
+  }, [timeLeft, gameState]);
 
   // Random agent name effect
   useEffect(() => {
@@ -82,6 +120,15 @@ function App() {
 
   return (
     <div className="container">
+      <audio ref={beepRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
+      <audio ref={alarmRef} src="https://assets.mixkit.co/active_storage/sfx/1432/1432-preview.mp3" />
+      
+      {/* Warning text overlays */}
+      <div className="warning-text">SECURITY BREACH</div>
+      <div className="warning-text">CRITICAL ALERT</div>
+      <div className="warning-text">SYSTEM COMPROMISED</div>
+      <div className="warning-text">IMF SECURITY PROTOCOL</div>
+
       {agentName && (
         <div 
           className="agent-name"
@@ -93,16 +140,22 @@ function App() {
           {agentName}
         </div>
       )}
+      
       {gameState === 'running' && (
         <div className={`bomb-timer ${showError ? 'error-active' : ''}`}>
+          <div className="security-label">IMF SECURITY SYSTEM</div>
           <div 
             className="time-display" 
             data-time-low={timeLeft < 60}
             data-content={formatTime(timeLeft)}
           >
             {formatTime(timeLeft)}
+            <div className="time-separator">:</div>
+            <div className="time-label">TIME REMAINING</div>
           </div>
+          <div className="warning-stripes"></div>
           <div className="pin-input">
+            <div className="pin-label">ENTER DEACTIVATION CODE</div>
             <input
               type="text"
               value={pin}
@@ -114,8 +167,12 @@ function App() {
             {showError && (
               <div className="error-message">
                 INCORRECT PIN CODE - RETRY ({wrongAttempts})
+                <div className="error-detail">SECURITY PROTOCOL VIOLATION</div>
               </div>
             )}
+          </div>
+          <div className="security-footer">
+            AUTHORIZED PERSONNEL ONLY - LEVEL 5 CLEARANCE REQUIRED
           </div>
         </div>
       )}
