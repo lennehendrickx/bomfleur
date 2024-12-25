@@ -7,7 +7,7 @@ const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
 function App() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [pin, setPin] = useState('');
-  const [gameState, setGameState] = useState<'running' | 'exploded' | 'defused'>('running');
+  const [gameState, setGameState] = useState<'welcome' | 'running' | 'exploded' | 'defused'>('welcome');
   const [showError, setShowError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -53,12 +53,41 @@ function App() {
           }, 1000);
         }
         setIsVerifying(false);
-      }, 1500); // Show verification overlay for 1.5 seconds
+      }, 1500);
     }
+  };
+
+  const startGame = () => {
+    setGameState('running');
+    setTimeLeft(INITIAL_TIME);
+    setPin('');
+    setWrongAttempts(0);
+    setShowError(false);
   };
 
   return (
     <div className="container">
+      {gameState === 'welcome' && (
+        <div className="welcome-screen">
+          <div className="welcome-header">BOMFLEUR</div>
+          <div className="welcome-subheader">IMF SECURITY SYSTEM</div>
+          <div className="welcome-content">
+            <div className="mission-brief">
+              <div className="brief-line">MISSION STATUS: ACTIVE</div>
+              <div className="brief-line">SECURITY LEVEL: MAXIMUM</div>
+              <div className="brief-line">TIME LIMIT: 20:00</div>
+              <div className="brief-line">OBJECTIVE: DEFUSE DEVICE</div>
+            </div>
+            <button className="start-button" onClick={startGame}>
+              INITIALIZE MISSION
+            </button>
+            <div className="warning-brief">
+              THIS MESSAGE WILL SELF-DESTRUCT IN 5 SECONDS
+            </div>
+          </div>
+        </div>
+      )}
+
       {gameState === 'running' && (
         <div className={`bomb-timer ${showError ? 'error-active' : ''}`}>
           {isVerifying && (
