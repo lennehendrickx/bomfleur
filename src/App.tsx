@@ -31,7 +31,7 @@ function App() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${mins.toString().padStart(2, '0')}${secs.toString().padStart(2, '0')}`;
   };
 
   const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,8 +62,9 @@ function App() {
             data-time-low={timeLeft < 60}
             data-content={formatTime(timeLeft)}
           >
-            {formatTime(timeLeft)}
+            {formatTime(timeLeft).slice(0, 2)}
             <div className="time-separator">:</div>
+            {formatTime(timeLeft).slice(2, 4)}
             <div className="time-label">TIME REMAINING</div>
           </div>
           <div className="warning-stripes"></div>
@@ -73,7 +74,7 @@ function App() {
               type="text"
               value={pin}
               onChange={handlePinChange}
-              placeholder="ENTER PIN CODE"
+              placeholder="ENTER PIN"
               maxLength={4}
               autoFocus
             />
@@ -119,7 +120,7 @@ function App() {
             <div className="status-line">BOMB STATUS: DEFUSED</div>
             <div className="status-line">AGENT STATUS: ACTIVE</div>
             <div className="clearance">CLEARANCE LEVEL: ALPHA</div>
-            <div className="timestamp">TIME REMAINING: {formatTime(timeLeft)}</div>
+            <div className="timestamp">TIME REMAINING: {formatTime(timeLeft).slice(0, 2)}:{formatTime(timeLeft).slice(2, 4)}</div>
             <div className="attempts">FAILED ATTEMPTS: {wrongAttempts}</div>
           </div>
           <div className="classified-footer">IMF CLASSIFIED DOCUMENT</div>
