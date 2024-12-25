@@ -10,6 +10,7 @@ function App() {
   const [gameState, setGameState] = useState<'running' | 'exploded' | 'defused'>('running');
   const [showError, setShowError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   // Timer effect
   useEffect(() => {
@@ -37,18 +38,22 @@ function App() {
   const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPin = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
     setPin(newPin);
-    setShowError(false); // Clear error when typing
+    setShowError(false);
 
     if (newPin.length === 4) {
-      if (newPin === CORRECT_PIN) {
-        setGameState('defused');
-      } else {
-        setWrongAttempts(prev => prev + 1);
-        setShowError(true); // Show error message
-        setTimeout(() => {
-          setPin(''); // Clear PIN after a short delay
-        }, 1000);
-      }
+      setIsVerifying(true);
+      setTimeout(() => {
+        if (newPin === CORRECT_PIN) {
+          setGameState('defused');
+        } else {
+          setWrongAttempts(prev => prev + 1);
+          setShowError(true);
+          setTimeout(() => {
+            setPin('');
+          }, 1000);
+        }
+        setIsVerifying(false);
+      }, 1500); // Show verification overlay for 1.5 seconds
     }
   };
 
@@ -56,6 +61,15 @@ function App() {
     <div className="container">
       {gameState === 'running' && (
         <div className={`bomb-timer ${showError ? 'error-active' : ''}`}>
+          {isVerifying && (
+            <div className="verification-overlay">
+              <div className="verification-content">
+                <div className="verification-text">VERIFYING PIN CODE</div>
+                <div className="verification-spinner"></div>
+                <div className="verification-detail">ACCESSING SECURITY PROTOCOLS</div>
+              </div>
+            </div>
+          )}
           <div className="security-label">IMF SECURITY SYSTEM</div>
           <div 
             className="time-display" 
