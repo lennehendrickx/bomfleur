@@ -11,6 +11,7 @@ function App() {
   const [showError, setShowError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   // Timer effect
   useEffect(() => {
@@ -58,17 +59,21 @@ function App() {
   };
 
   const startGame = () => {
-    setGameState('running');
-    setTimeLeft(INITIAL_TIME);
-    setPin('');
-    setWrongAttempts(0);
-    setShowError(false);
+    setIsExiting(true);
+    setTimeout(() => {
+      setGameState('running');
+      setTimeLeft(INITIAL_TIME);
+      setPin('');
+      setWrongAttempts(0);
+      setShowError(false);
+      setIsExiting(false);
+    }, 1000); // Match the welcomeExit animation duration
   };
 
   return (
     <div className="container">
       {gameState === 'welcome' && (
-        <div className="welcome-screen">
+        <div className={`welcome-screen ${isExiting ? 'exit' : ''}`}>
           <div className="welcome-header">BOMFLEUR</div>
           <div className="welcome-subheader">IMF SECURITY SYSTEM</div>
           <div className="welcome-content">
