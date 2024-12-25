@@ -89,7 +89,6 @@ function App() {
               />
             </div>
           </div>
-          <div className="warning-stripes"></div>
           <div className="pin-input">
             <div className="pin-label">ENTER DEACTIVATION CODE</div>
             <input
