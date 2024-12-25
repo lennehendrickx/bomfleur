@@ -82,11 +82,11 @@ function App() {
             <div className="progress-bar">
               <div 
                 className="progress-fill" 
-                style={{ 
-                  width: `${(timeLeft / INITIAL_TIME) * 100}%`,
-                  backgroundColor: timeLeft < 60 ? '#ff0000' : '#990000'
-                }}
+                style={{ width: `${(timeLeft / INITIAL_TIME) * 100}%` }}
               />
+              <div className="progress-text">
+                {`${Math.round((timeLeft / INITIAL_TIME) * 100)}%`}
+              </div>
             </div>
           </div>
           <div className="pin-input">
