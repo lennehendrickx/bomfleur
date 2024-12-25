@@ -3,6 +3,7 @@ import './App.css'
 
 const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
 const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
+const AGENTS = ['Faya', 'Otis', 'Eppo', 'Isa', 'Elli', 'Elliot', 'Basil', 'Suzanne'];
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
@@ -12,6 +13,23 @@ function App() {
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [currentAgentIndex, setCurrentAgentIndex] = useState(0);
+  const [isAgentVisible, setIsAgentVisible] = useState(true);
+
+  // Agent cycling effect
+  useEffect(() => {
+    if (gameState !== 'welcome') return;
+
+    const fadeTimer = setInterval(() => {
+      setIsAgentVisible(false);
+      setTimeout(() => {
+        setCurrentAgentIndex(prev => (prev + 1) % AGENTS.length);
+        setIsAgentVisible(true);
+      }, 500); // Wait for fade out before changing agent
+    }, 2000); // Change agent every 2 seconds
+
+    return () => clearInterval(fadeTimer);
+  }, [gameState]);
 
   // Timer effect
   useEffect(() => {
@@ -77,6 +95,12 @@ function App() {
           <div className="welcome-header">BOMFLEUR</div>
           <div className="welcome-subheader">IMF SECURITY SYSTEM</div>
           <div className="welcome-content">
+            <div className="agent-list">
+              <div className="agent-list-header">INITIALIZING AGENT:</div>
+              <div className={`agent-name ${isAgentVisible ? 'visible' : ''}`}>
+                {AGENTS[currentAgentIndex]}
+              </div>
+            </div>
             <div className="mission-brief">
               <div className="brief-line">MISSION STATUS: ACTIVE</div>
               <div className="brief-line">SECURITY LEVEL: MAXIMUM</div>
@@ -86,9 +110,6 @@ function App() {
             <button className="start-button" onClick={startGame}>
               INITIALIZE MISSION
             </button>
-            <div className="warning-brief">
-              THIS MESSAGE WILL SELF-DESTRUCT IN 5 SECONDS
-            </div>
           </div>
         </div>
       )}
