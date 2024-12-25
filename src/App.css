@@ -711,4 +711,113 @@
   80% { transform: translate(2px, 2px); }
 }
 
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background-color: #000000;
+  border-top: 2px solid #330000;
+  border-bottom: 2px solid #330000;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  position: relative;
+  transition: width 1s linear;
+}
+
+/* Main progress pattern */
+.progress-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    to right,
+    #ff0000 0px,
+    #ff0000 4px,
+    #cc0000 4px,
+    #cc0000 8px
+  );
+  animation: borderBlink 0.5s step-end infinite;
+}
+
+/* Terminal scanlines */
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 1px,
+    rgba(0, 0, 0, 0.3) 1px,
+    rgba(0, 0, 0, 0.3) 2px
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Loading blocks */
+.progress-bar::after {
+  content: '■ ■ ■';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #ff0000;
+  font-family: monospace;
+  font-size: 12px;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+  animation: loadingDots 1s step-end infinite;
+  z-index: 3;
+}
+
+/* Warning state */
+.time-display[data-time-low="true"] .progress-fill::before {
+  background: repeating-linear-gradient(
+    to right,
+    #ff0000 0px,
+    #ff0000 2px,
+    #660000 2px,
+    #660000 4px
+  );
+  animation: 
+    borderBlink 0.2s step-end infinite,
+    warningFlash 0.2s step-end infinite;
+}
+
+@keyframes borderBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes loadingDots {
+  0% { content: '■ □ □'; }
+  33% { content: '□ ■ □'; }
+  66% { content: '□ □ ■'; }
+  100% { content: '■ □ □'; }
+}
+
+@keyframes warningFlash {
+  0%, 100% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(1.5) contrast(1.2);
+  }
+}
+
 

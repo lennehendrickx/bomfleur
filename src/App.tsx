@@ -79,7 +79,15 @@ function App() {
             {formatTime(timeLeft).slice(0, 2)}
             <div className="time-separator">:</div>
             {formatTime(timeLeft).slice(2, 4)}
-            <div className="time-label">TIME REMAINING</div>
+            <div className="progress-bar">
+              <div 
+                className="progress-fill" 
+                style={{ 
+                  width: `${(timeLeft / INITIAL_TIME) * 100}%`,
+                  backgroundColor: timeLeft < 60 ? '#ff0000' : '#990000'
+                }}
+              />
+            </div>
           </div>
           <div className="warning-stripes"></div>
           <div className="pin-input">
