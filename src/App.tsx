@@ -3,7 +3,6 @@ import './App.css'
 
 const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
 const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
-const AGENT_NAMES = ['Faya', 'Otis', 'Eppo', 'Isa', 'Elli', 'Eliiot', 'Basil', 'Suzanne'];
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
@@ -11,8 +10,6 @@ function App() {
   const [gameState, setGameState] = useState<'running' | 'exploded' | 'defused'>('running');
   const [showError, setShowError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
-  const [agentName, setAgentName] = useState('');
-  const [agentPosition, setAgentPosition] = useState({ x: 0, y: 0 });
   const beepRef = useRef<HTMLAudioElement>(null);
   const alarmRef = useRef<HTMLAudioElement>(null);
 
@@ -51,31 +48,6 @@ function App() {
       alarmRef.current.play().catch(() => {});
     }
   }, [timeLeft, gameState]);
-
-  // Random agent name effect
-  useEffect(() => {
-    if (gameState !== 'running') return;
-
-    const showRandomAgent = () => {
-      const name = AGENT_NAMES[Math.floor(Math.random() * AGENT_NAMES.length)];
-      const x = Math.random() * 80; // Keep away from edges
-      const y = Math.random() * 80;
-      setAgentName(name);
-      setAgentPosition({ x, y });
-
-      setTimeout(() => {
-        setAgentName('');
-      }, 800); // Show for 800ms
-    };
-
-    const interval = setInterval(() => {
-      if (Math.random() < 0.3) { // 30% chance to show a name
-        showRandomAgent();
-      }
-    }, 2000); // Check every 2 seconds
-
-    return () => clearInterval(interval);
-  }, [gameState]);
 
   // Timer effect
   useEffect(() => {
@@ -128,18 +100,6 @@ function App() {
       <div className="warning-text">CRITICAL ALERT</div>
       <div className="warning-text">SYSTEM COMPROMISED</div>
       <div className="warning-text">IMF SECURITY PROTOCOL</div>
-
-      {agentName && (
-        <div 
-          className="agent-name"
-          style={{ 
-            left: `${agentPosition.x}%`, 
-            top: `${agentPosition.y}%` 
-          }}
-        >
-          {agentName}
-        </div>
-      )}
       
       {gameState === 'running' && (
         <div className={`bomb-timer ${showError ? 'error-active' : ''}`}>
