@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
@@ -10,44 +10,6 @@ function App() {
   const [gameState, setGameState] = useState<'running' | 'exploded' | 'defused'>('running');
   const [showError, setShowError] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
-  const beepRef = useRef<HTMLAudioElement>(null);
-  const alarmRef = useRef<HTMLAudioElement>(null);
-
-  // Initialize audio
-  useEffect(() => {
-    if (beepRef.current) {
-      beepRef.current.volume = 0.3;
-    }
-    if (alarmRef.current) {
-      alarmRef.current.volume = 0.4;
-    }
-  }, []);
-
-  // Sound effect for timer
-  useEffect(() => {
-    if (gameState !== 'running') return;
-
-    const playBeep = () => {
-      if (beepRef.current) {
-        beepRef.current.currentTime = 0;
-        beepRef.current.play().catch(() => {});
-      }
-    };
-
-    // Play beep every second when time is low
-    if (timeLeft <= 60) {
-      playBeep();
-    } else if (timeLeft <= 300) { // Play every 5 seconds when under 5 minutes
-      if (timeLeft % 5 === 0) {
-        playBeep();
-      }
-    }
-
-    // Play alarm sound when very low on time
-    if (timeLeft <= 10 && alarmRef.current) {
-      alarmRef.current.play().catch(() => {});
-    }
-  }, [timeLeft, gameState]);
 
   // Timer effect
   useEffect(() => {
@@ -92,15 +54,6 @@ function App() {
 
   return (
     <div className="container">
-      <audio ref={beepRef} src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" />
-      <audio ref={alarmRef} src="https://assets.mixkit.co/active_storage/sfx/1432/1432-preview.mp3" />
-      
-      {/* Warning text overlays */}
-      <div className="warning-text">SECURITY BREACH</div>
-      <div className="warning-text">CRITICAL ALERT</div>
-      <div className="warning-text">SYSTEM COMPROMISED</div>
-      <div className="warning-text">IMF SECURITY PROTOCOL</div>
-      
       {gameState === 'running' && (
         <div className={`bomb-timer ${showError ? 'error-active' : ''}`}>
           <div className="security-label">IMF SECURITY SYSTEM</div>
