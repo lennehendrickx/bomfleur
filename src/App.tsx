@@ -3,7 +3,7 @@ import './App.css'
 
 const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
 const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
-const AGENTS = ['Faya', 'Otis', 'Eppo', 'Isa', 'Elli', 'Elliot', 'Basil', 'Suzanne'];
+const AGENTS = ['Faya', 'Otis', 'Eppo', 'Isa', 'Ellie', 'Elliot', 'Basil', 'Suzanne'];
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
