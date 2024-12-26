@@ -1009,4 +1009,148 @@
   to { left: 100%; }
 }
 
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+  .bomb-timer {
+    padding: 2rem;
+    margin: 1rem;
+    max-width: 100%;
+  }
+
+  .time-display {
+    font-size: 5rem;
+    padding: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .time-separator {
+    font-size: 5rem;
+  }
+
+  .pin-input input {
+    width: 200px;
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .security-label {
+    font-size: 1rem;
+  }
+
+  .pin-label {
+    font-size: 1rem;
+  }
+
+  .security-footer {
+    font-size: 0.8rem;
+  }
+
+  .welcome-screen {
+    padding: 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .welcome-header {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+  }
+
+  .welcome-subheader {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+
+  .agent-name {
+    font-size: 2rem;
+  }
+
+  .brief-line {
+    font-size: 0.9rem;
+  }
+
+  .start-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .explosion-header,
+  .classified-header,
+  .classified-footer {
+    font-size: 1.5rem;
+  }
+
+  .explosion-warning h1 {
+    font-size: 1.5rem;
+  }
+
+  .warning-symbol {
+    font-size: 2rem;
+  }
+
+  .detail-line,
+  .status-line,
+  .clearance,
+  .timestamp {
+    font-size: 1rem;
+  }
+
+  .verification-text {
+    font-size: 1.5rem;
+  }
+
+  .verification-spinner {
+    width: 40px;
+    height: 40px;
+  }
+
+  .error-message {
+    font-size: 1rem;
+  }
+
+  .error-detail {
+    font-size: 0.8rem;
+  }
+}
+
+/* Additional mobile optimizations for very small screens */
+@media screen and (max-width: 380px) {
+  .time-display {
+    font-size: 3.5rem;
+    padding: 1rem;
+  }
+
+  .time-separator {
+    font-size: 3.5rem;
+  }
+
+  .welcome-header {
+    font-size: 2rem;
+  }
+
+  .pin-input input {
+    width: 180px;
+    font-size: 1.2rem;
+  }
+
+  .explosion-warning h1 {
+    font-size: 1.2rem;
+  }
+
+  .warning-symbol {
+    font-size: 1.5rem;
+  }
+}
+
+/* Ensure proper touch targets */
+@media (hover: none) and (pointer: coarse) {
+  .start-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .pin-input input {
+    min-height: 44px;
+  }
+}
+
 
