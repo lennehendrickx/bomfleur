@@ -5,6 +5,41 @@ const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
 const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
 const AGENTS = ['Faya', 'Otis', 'Eppo', 'Isa', 'Ellie', 'Elliot', 'Basil', 'Suzanne'];
 
+const translations = {
+  welcomeHeader: 'BOMFLEUR',
+  securitySystem: 'BOMFLEUR BEVEILIGINGSSYSTEEM',
+  initializingAgent: 'AGENT INITIALISEREN:',
+  missionStatus: 'MISSIE STATUS: ACTIEF',
+  securityLevel: 'BEVEILIGINGSNIVEAU: MAXIMUM',
+  timeLimit: 'TIJDSLIMIET: 20:00',
+  objective: 'DOEL: BOMINACTIVATIE',
+  initializeMission: 'START MISSIE',
+  verifyingPin: 'PIN CODE VERIFIËREN',
+  accessingProtocols: 'BEVEILIGINGSPROTOCOLLEN LADEN',
+  enterDeactivationCode: 'VOER DEACTIVATIE CODE IN',
+  enterPin: '4 CIJFERS',
+  incorrectPin: 'ONJUISTE PIN CODE - PROBEER OPNIEUW',
+  securityViolation: 'BEVEILIGINGSPROTOCOL OVERTREDING',
+  authorizedPersonnel: 'ALLEEN GEAUTORISEERD PERSONEEL - NIVEAU 5 TOEGANG VEREIST',
+  criticalFailure: 'KRITIEKE FOUT',
+  detonationComplete: 'DETONATIE VOLTOOID',
+  missionFailed: 'MISSIE STATUS: MISLUKT',
+  bombDetonated: 'BOM STATUS: GEDETONEERD',
+  agentTerminated: 'AGENT STATUS: UITGESCHAKELD',
+  areaCompromised: 'GEBIED STATUS: GECOMPROMITTEERD',
+  failedAttempts: 'MISLUKTE POGINGEN:',
+  incidentReport: 'INCIDENT RAPPORT: IN AFWACHTING',
+  emergencyProtocols: 'NOODPROTOCOLLEN GEACTIVEERD',
+  topSecret: 'STRIKT GEHEIM',
+  congratulations: 'GEFELICITEERD AGENTEN',
+  missionComplete: 'MISSIE STATUS: VOLTOOID',
+  bombDefused: 'BOM STATUS: ONSCHADELIJK GEMAAKT',
+  agentActive: 'AGENT STATUS: ACTIEF',
+  clearanceLevel: 'TOEGANGSNIVEAU: ALPHA',
+  timeRemaining: 'RESTERENDE TIJD:',
+  classifiedDoc: 'VERTROUWELIJK DOCUMENT'
+};
+
 function App() {
   const [timeLeft, setTimeLeft] = useState(INITIAL_TIME);
   const [pin, setPin] = useState('');
@@ -92,23 +127,23 @@ function App() {
     <div className="container">
       {gameState === 'welcome' && (
         <div className={`welcome-screen ${isExiting ? 'exit' : ''}`}>
-          <div className="welcome-header">BOMFLEUR</div>
-          <div className="welcome-subheader">IMF SECURITY SYSTEM</div>
+          <div className="welcome-header">{translations.welcomeHeader}</div>
+          <div className="welcome-subheader">{translations.securitySystem}</div>
           <div className="welcome-content">
             <div className="agent-list">
-              <div className="agent-list-header">INITIALIZING AGENT:</div>
+              <div className="agent-list-header">{translations.initializingAgent}</div>
               <div className={`agent-name ${isAgentVisible ? 'visible' : ''}`}>
                 {AGENTS[currentAgentIndex]}
               </div>
             </div>
             <div className="mission-brief">
-              <div className="brief-line">MISSION STATUS: ACTIVE</div>
-              <div className="brief-line">SECURITY LEVEL: MAXIMUM</div>
-              <div className="brief-line">TIME LIMIT: 20:00</div>
-              <div className="brief-line">OBJECTIVE: DEFUSE DEVICE</div>
+              <div className="brief-line">{translations.missionStatus}</div>
+              <div className="brief-line">{translations.securityLevel}</div>
+              <div className="brief-line">{translations.timeLimit}</div>
+              <div className="brief-line">{translations.objective}</div>
             </div>
             <button className="start-button" onClick={startGame}>
-              INITIALIZE MISSION
+              {translations.initializeMission}
             </button>
           </div>
         </div>
@@ -119,13 +154,13 @@ function App() {
           {isVerifying && (
             <div className="verification-overlay">
               <div className="verification-content">
-                <div className="verification-text">VERIFYING PIN CODE</div>
+                <div className="verification-text">{translations.verifyingPin}</div>
                 <div className="verification-spinner"></div>
-                <div className="verification-detail">ACCESSING SECURITY PROTOCOLS</div>
+                <div className="verification-detail">{translations.accessingProtocols}</div>
               </div>
             </div>
           )}
-          <div className="security-label">IMF SECURITY SYSTEM</div>
+          <div className="security-label">{translations.securitySystem}</div>
           <div 
             className="time-display" 
             data-time-low={timeLeft < 60}
@@ -145,61 +180,61 @@ function App() {
             </div>
           </div>
           <div className="pin-input">
-            <div className="pin-label">ENTER DEACTIVATION CODE</div>
+            <div className="pin-label">{translations.enterDeactivationCode}</div>
             <input
               type="text"
               value={pin}
               onChange={handlePinChange}
-              placeholder="ENTER PIN"
+              placeholder={translations.enterPin}
               maxLength={4}
               autoFocus
             />
             {showError && (
               <div className="error-message">
-                INCORRECT PIN CODE - RETRY ({wrongAttempts})
-                <div className="error-detail">SECURITY PROTOCOL VIOLATION</div>
+                {translations.incorrectPin} ({wrongAttempts})
+                <div className="error-detail">{translations.securityViolation}</div>
               </div>
             )}
           </div>
           <div className="security-footer">
-            AUTHORIZED PERSONNEL ONLY - LEVEL 5 CLEARANCE REQUIRED
+            {translations.authorizedPersonnel}
           </div>
         </div>
       )}
 
       {gameState === 'exploded' && (
         <div className="explosion">
-          <div className="explosion-header">CRITICAL FAILURE</div>
+          <div className="explosion-header">{translations.criticalFailure}</div>
           <div className="explosion-warning">
             <span className="warning-symbol">⚠</span>
-            <h1>DETONATION SEQUENCE COMPLETE</h1>
+            <h1>{translations.detonationComplete}</h1>
             <span className="warning-symbol">⚠</span>
           </div>
           <div className="explosion-details">
-            <div className="detail-line">MISSION STATUS: FAILED</div>
-            <div className="detail-line">BOMB STATUS: DETONATED</div>
-            <div className="detail-line">AGENT STATUS: TERMINATED</div>
-            <div className="detail-line">AREA STATUS: COMPROMISED</div>
-            <div className="detail-line attempts">FAILED ATTEMPTS: {wrongAttempts}</div>
-            <div className="detail-line">INCIDENT REPORT: PENDING</div>
+            <div className="detail-line">{translations.missionFailed}</div>
+            <div className="detail-line">{translations.bombDetonated}</div>
+            <div className="detail-line">{translations.agentTerminated}</div>
+            <div className="detail-line">{translations.areaCompromised}</div>
+            <div className="detail-line attempts">{translations.failedAttempts} {wrongAttempts}</div>
+            <div className="detail-line">{translations.incidentReport}</div>
           </div>
-          <div className="explosion-footer">EMERGENCY PROTOCOLS ACTIVATED</div>
+          <div className="explosion-footer">{translations.emergencyProtocols}</div>
         </div>
       )}
 
       {gameState === 'defused' && (
         <div className="success">
-          <div className="classified-header">TOP SECRET</div>
-          <div className="congratulations">CONGRATULATIONS AGENTS</div>
+          <div className="classified-header">{translations.topSecret}</div>
+          <div className="congratulations">{translations.congratulations}</div>
           <div className="mission-status">
-            <div className="status-line">MISSION STATUS: COMPLETE</div>
-            <div className="status-line">BOMB STATUS: DEFUSED</div>
-            <div className="status-line">AGENT STATUS: ACTIVE</div>
-            <div className="clearance">CLEARANCE LEVEL: ALPHA</div>
-            <div className="timestamp">TIME REMAINING: {formatTime(timeLeft).slice(0, 2)}:{formatTime(timeLeft).slice(2, 4)}</div>
-            <div className="attempts">FAILED ATTEMPTS: {wrongAttempts}</div>
+            <div className="status-line">{translations.missionComplete}</div>
+            <div className="status-line">{translations.bombDefused}</div>
+            <div className="status-line">{translations.agentActive}</div>
+            <div className="clearance">{translations.clearanceLevel}</div>
+            <div className="timestamp">{translations.timeRemaining} {formatTime(timeLeft).slice(0, 2)}:{formatTime(timeLeft).slice(2, 4)}</div>
+            <div className="attempts">{translations.failedAttempts} {wrongAttempts}</div>
           </div>
-          <div className="classified-footer">IMF CLASSIFIED DOCUMENT</div>
+          <div className="classified-footer">{translations.classifiedDoc}</div>
         </div>
       )}
     </div>
