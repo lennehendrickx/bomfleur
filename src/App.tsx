@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-const INITIAL_TIME = 20 * 60; // 20 minutes in seconds
+const INITIAL_TIME = 2 * 60 * 60; // 120 minutes in seconds
 const CORRECT_PIN = '1234'; // You can change this to any 4-digit pin
 const AGENTS = ['Faya', 'Otis', 'Eppo', 'Isa', 'Ellie', 'Elliot', 'Basil', 'Suzanne'];
 
@@ -11,7 +11,7 @@ const translations = {
   initializingAgent: 'AGENT INITIALISEREN:',
   missionStatus: 'MISSIE STATUS: ACTIEF',
   securityLevel: 'BEVEILIGINGSNIVEAU: MAXIMUM',
-  timeLimit: 'TIJDSLIMIET: 20:00',
+  timeLimit: 'TIJDSLIMIET: 2 UUR',
   objective: 'DOEL: BOMINACTIVATIE',
   initializeMission: 'START MISSIE',
   verifyingPin: 'PIN CODE VERIFIËREN',
@@ -84,9 +84,10 @@ function App() {
   }, [gameState]);
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}${secs.toString().padStart(2, '0')}`;
+    const hours = Math.floor(seconds / 60 / 60);
+    const mins = Math.floor(seconds % 3600 / 60);
+    const secs = Math.floor(seconds % 3600 % 60);
+    return `${hours.toString().padStart(2, '0')}${mins.toString().padStart(2, '0')}${secs.toString().padStart(2, '0')}`;
   };
 
   const handlePinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,6 +170,8 @@ function App() {
             {formatTime(timeLeft).slice(0, 2)}
             <div className="time-separator">:</div>
             {formatTime(timeLeft).slice(2, 4)}
+            <div className="time-separator">:</div>
+            {formatTime(timeLeft).slice(4, 6)}
             <div className="progress-bar">
               <div 
                 className="progress-fill" 
@@ -231,7 +234,7 @@ function App() {
             <div className="status-line">{translations.bombDefused}</div>
             <div className="status-line">{translations.agentActive}</div>
             <div className="clearance">{translations.clearanceLevel}</div>
-            <div className="timestamp">{translations.timeRemaining} {formatTime(timeLeft).slice(0, 2)}:{formatTime(timeLeft).slice(2, 4)}</div>
+            <div className="timestamp">{translations.timeRemaining} {formatTime(timeLeft).slice(0, 2)}:{formatTime(timeLeft).slice(2, 4)}:{formatTime(timeLeft).slice(4, 6)}</div>
             <div className="attempts">{translations.failedAttempts} {wrongAttempts}</div>
           </div>
           <div className="classified-footer">{translations.classifiedDoc}</div>

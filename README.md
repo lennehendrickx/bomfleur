@@ -49,7 +49,7 @@ yarn dev
 ## How to Play
 
 1. Start the game by clicking "START MISSIE"
-2. You have 20 minutes to defuse the bomb
+2. You have 120 minutes to defuse the bomb
 3. Enter the correct 4-digit PIN code to defuse the bomb
 4. Be careful! Wrong attempts are tracked and displayed
 5. If the timer reaches zero, the bomb detonates
