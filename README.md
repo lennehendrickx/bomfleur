@@ -2,6 +2,10 @@
 
 A thrilling bomb defusal game built with React, TypeScript, and Vite. This project was developed as an experimental project using Cursor IDE, exploring modern web development practices and real-time interactive gameplay.
 
+## Demo
+
+[The demo](https://lennehendrickx.github.io/bomfleur/) is hosted on GitHub Pages and is published automatically using GitHub Actions.
+
 ## Features
 
 - 🕒 Real-time countdown timer
